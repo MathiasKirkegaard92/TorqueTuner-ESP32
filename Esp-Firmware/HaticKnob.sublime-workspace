@@ -1,0 +1,1497 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"angle",
+				"angle_scale"
+			],
+			[
+				"last_time_",
+				"last_time_fsr"
+			],
+			[
+				"tor",
+				"torque_test"
+			],
+			[
+				"active",
+				"active_mode"
+			],
+			[
+				"static",
+				"static_cast"
+			],
+			[
+				"ang",
+				"angle_"
+			],
+			[
+				"min",
+				"min_"
+			],
+			[
+				"defa",
+				"torque_scale_default"
+			],
+			[
+				"calc",
+				"calc_torque_click"
+			],
+			[
+				"tes",
+				"test_max"
+			],
+			[
+				"mapper",
+				"mapper_signal"
+			],
+			[
+				"torque",
+				"torque_scale"
+			],
+			[
+				"torq",
+				"torque_scale"
+			],
+			[
+				"div1",
+				"div1_out"
+			],
+			[
+				"div",
+				"div1_out"
+			],
+			[
+				"uint",
+				"uint16_t"
+			],
+			[
+				"PIN",
+				"PIN_EN"
+			],
+			[
+				"t_",
+				"t_pin_en"
+			],
+			[
+				"t_p",
+				"t_pin_ss"
+			],
+			[
+				"t_pin_",
+				"t_pin_data"
+			],
+			[
+				"pin",
+				"PIN_DATA"
+			],
+			[
+				"set",
+				"set_division"
+			],
+			[
+				"outp",
+				"output_state_t"
+			],
+			[
+				"output",
+				"output_list"
+			],
+			[
+				"Ro",
+				"RotaryEncoder"
+			],
+			[
+				"in",
+				"input_devices"
+			],
+			[
+				"LED",
+				"LED_DIV1"
+			],
+			[
+				"div2",
+				"div2_btn"
+			],
+			[
+				"LED_DIV",
+				"LED_DIV1"
+			],
+			[
+				"LED_Te",
+				"LED_TEMPO_G"
+			],
+			[
+				"LED_TEMPO",
+				"LED_TEMPO_G"
+			],
+			[
+				"LED_T",
+				"LED_TEMPO_G"
+			],
+			[
+				"led",
+				"led_state"
+			],
+			[
+				"spi",
+				"spi_transaction_t"
+			],
+			[
+				"Shift",
+				"ShiftOut"
+			],
+			[
+				"num",
+				"num_pitches"
+			],
+			[
+				"nu",
+				"num_pitches"
+			],
+			[
+				"mel",
+				"melody_value"
+			],
+			[
+				"is_",
+				"is_top_note"
+			],
+			[
+				"is",
+				"is_top_note"
+			],
+			[
+				"pit",
+				"pitch"
+			],
+			[
+				"int",
+				"int8_t"
+			],
+			[
+				"btn",
+				"btn_idx"
+			],
+			[
+				"mod",
+				"modal_transposition"
+			],
+			[
+				"act",
+				"active_rhythm"
+			],
+			[
+				"for",
+				"for\tFor Loop"
+			],
+			[
+				"rand",
+				"rand_val"
+			],
+			[
+				"vel",
+				"velocity"
+			],
+			[
+				"pitc",
+				"pitches"
+			],
+			[
+				"VOCI",
+				"VOICING_SELECT"
+			],
+			[
+				"SCALE",
+				"SCALE_ROOT"
+			],
+			[
+				"inc",
+				"inc\t#include \"…\""
+			],
+			[
+				"SCALE_",
+				"SCALE_ROOT"
+			],
+			[
+				"key",
+				"key_in_scale"
+			],
+			[
+				"DARK",
+				"DARK_GRAY"
+			],
+			[
+				"dARK",
+				"DARK_GREEN"
+			],
+			[
+				"ac",
+				"active_rhythm"
+			],
+			[
+				"sca",
+				"scale_idx"
+			],
+			[
+				"pat",
+				"pattern_to_copy"
+			],
+			[
+				"unord",
+				"unordered_map\tstandard header (since c++11)"
+			],
+			[
+				"par",
+				"param_name_t"
+			],
+			[
+				"ui",
+				"ui_mode_t"
+			],
+			[
+				"NU",
+				"NUM_PARAMETER_TYPES"
+			],
+			[
+				"get_",
+				"get_param"
+			],
+			[
+				"set_",
+				"set_relative"
+			],
+			[
+				"STRUM",
+				"STRUM_TIME"
+			],
+			[
+				"push",
+				"push_back"
+			],
+			[
+				"EVENT",
+				"EVENT_NOTE"
+			],
+			[
+				"EVE",
+				"EVENT_STRUM_NOTE"
+			],
+			[
+				"even",
+				"event_queue"
+			],
+			[
+				"ve",
+				"velocity"
+			],
+			[
+				"event",
+				"event_queue"
+			],
+			[
+				"acti",
+				"active_rhythm_id"
+			],
+			[
+				"RAND",
+				"RAND_STRUM_REPEAT"
+			],
+			[
+				"STRUM_TIME",
+				"STRUM_TIME_PRESETS"
+			],
+			[
+				"NUM",
+				"NUM_RHYTHM_PARAMS"
+			],
+			[
+				"clear",
+				"clear_all"
+			],
+			[
+				"uin",
+				"uint8_t"
+			],
+			[
+				"rhythm",
+				"rhythms"
+			],
+			[
+				"emp",
+				"empty_queue"
+			],
+			[
+				"off",
+				"off_event_queue"
+			],
+			[
+				"off_",
+				"off_event_t"
+			],
+			[
+				"time",
+				"time_stamp"
+			],
+			[
+				"note",
+				"note_off_event"
+			],
+			[
+				"not",
+				"note_off_event_t"
+			],
+			[
+				"tim",
+				"time_stamp"
+			],
+			[
+				"VO",
+				"VOICING_SELECT"
+			],
+			[
+				"pus",
+				"push_back"
+			],
+			[
+				"EVEN",
+				"EVENT_NOTE_OFF"
+			],
+			[
+				"tmi",
+				"time_stamp"
+			],
+			[
+				"ranod",
+				"random_seq_t"
+			],
+			[
+				"ranom",
+				"random_seq_t"
+			],
+			[
+				"random",
+				"random_seq"
+			],
+			[
+				"strum",
+				"strum_time"
+			],
+			[
+				"has",
+				"has_notes"
+			],
+			[
+				"pre",
+				"previous_pulse"
+			],
+			[
+				"num_",
+				"num_pulses"
+			],
+			[
+				"seq",
+				"seq_idx"
+			],
+			[
+				"empt",
+				"empty_queue"
+			],
+			[
+				"VOC",
+				"VOICING"
+			],
+			[
+				"MO",
+				"MODE_PARAM_DISCRETE"
+			],
+			[
+				"las",
+				"last_random_lock_idx"
+			],
+			[
+				"rad",
+				"random_lock_idx"
+			],
+			[
+				"cy",
+				"cycles_start_time"
+			],
+			[
+				"do",
+				"do_tuplet_alternation"
+			],
+			[
+				"strum_ti",
+				"strum_time_is_random"
+			],
+			[
+				"reset",
+				"reset_point"
+			],
+			[
+				"get_par",
+				"get_param"
+			],
+			[
+				"param",
+				"param_selected"
+			],
+			[
+				"parm",
+				"param_is_selected"
+			],
+			[
+				"para",
+				"param_selected_val"
+			],
+			[
+				"cycl",
+				"cycles_idx"
+			],
+			[
+				"cyc",
+				"cycles_start_time"
+			],
+			[
+				"cyl",
+				"cycles_start_time"
+			],
+			[
+				"cycle",
+				"cycles"
+			],
+			[
+				"SCAL",
+				"SCALE_ROOT"
+			],
+			[
+				"scal",
+				"scale_root"
+			],
+			[
+				"LOC",
+				"LOCRIAN_DEGREES"
+			],
+			[
+				"ME",
+				"MELODIC_MINOR_DEGREES"
+			],
+			[
+				"Par",
+				"ParameterLayout"
+			],
+			[
+				"TUR",
+				"TURING"
+			],
+			[
+				"MIDI",
+				"MIDI_CHANNEL"
+			],
+			[
+				"TIMIN",
+				"TIMING_SELECT"
+			],
+			[
+				"MEL",
+				"MELODY_SELECT"
+			],
+			[
+				"RAND_S",
+				"RAND_STRUM_REPEAT"
+			],
+			[
+				"TURIN",
+				"TURING_DIVISION"
+			],
+			[
+				"DIVI",
+				"DIVISION"
+			],
+			[
+				"cylc",
+				"cycles_seq"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "haptics.cpp",
+			"settings":
+			{
+				"buffer_size": 3580,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "tf_wall.h",
+			"settings":
+			{
+				"buffer_size": 24171,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/mathiaskirkegaard/Documents/Projects/Haptic_Encoder/Mechaduino-Firmware/Mechaduino/Mechaduino/Mechaduino.ino",
+			"settings":
+			{
+				"buffer_size": 6073,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "haptics.h",
+			"settings":
+			{
+				"buffer_size": 2776,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "filter.h",
+			"settings":
+			{
+				"buffer_size": 366,
+				"encoding": "UTF-8",
+				"line_ending": "Unix",
+				"name": "filter.hpp"
+			}
+		},
+		{
+			"file": "Esp-firmware.ino",
+			"settings":
+			{
+				"buffer_size": 6353,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Build simulator with Xcode",
+					""
+				],
+				[
+					"Flash firmware",
+					""
+				],
+				[
+					"Make firmware",
+					""
+				],
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					""
+				],
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					"Run"
+				],
+				[
+					"Packages/Makefile/Make.sublime-build",
+					""
+				],
+				[
+					"Packages/Makefile/Make.sublime-build",
+					"Clean"
+				]
+			],
+			[
+				"Build simulator with Xcode",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Build simulator with Xcode",
+					""
+				],
+				[
+					"Flash firmware",
+					""
+				],
+				[
+					"Make firmware",
+					""
+				],
+				[
+					"Packages/Makefile/Make.sublime-build",
+					""
+				],
+				[
+					"Packages/Makefile/Make.sublime-build",
+					"Clean"
+				]
+			],
+			[
+				"Make firmware",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Build simulator with Xcode",
+					""
+				],
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					""
+				],
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					"Run"
+				],
+				[
+					"Packages/Makefile/Make.sublime-build",
+					""
+				],
+				[
+					"Packages/Makefile/Make.sublime-build",
+					"Clean"
+				]
+			],
+			[
+				"Build simulator with Xcode",
+				""
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"update",
+				"Package Control: Upgrade/Overwrite All Packages"
+			],
+			[
+				"enable",
+				"Package Control: Enable Package"
+			],
+			[
+				"list",
+				"Package Control: List Packages"
+			],
+			[
+				"he",
+				"HexViewer: Toggle Hex View"
+			],
+			[
+				"hex",
+				"HexViewer: Toggle Hex View"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"disable",
+				"Package Control: Disable Package"
+			],
+			[
+				"show",
+				"SublimeLinter: Show All Errors"
+			],
+			[
+				"ari",
+				"Arithmetic"
+			],
+			[
+				"sho",
+				"SublimeLinter: Show All Errors"
+			],
+			[
+				"flash",
+				"Build With: Flash firmware"
+			],
+			[
+				"dis",
+				"Package Control: Disable Package"
+			],
+			[
+				"make",
+				"Build With: Make firmware"
+			],
+			[
+				"format",
+				"SublimeAStyleFormatter: Format Current File"
+			],
+			[
+				"enab",
+				"Package Control: Enable Package"
+			],
+			[
+				"c++",
+				"Set Syntax: C++"
+			],
+			[
+				"ena",
+				"Package Control: Enable Package"
+			],
+			[
+				"reous",
+				"PackageResourceViewer: Open Resource"
+			],
+			[
+				"con",
+				"Convert Case: SCREAMING_SNAKE_CASE"
+			],
+			[
+				"conv",
+				"Convert Case: SCREAMING_SNAKE_CASE"
+			],
+			[
+				"convert",
+				"Convert Case: SCREAMING_SNAKE_CASE"
+			],
+			[
+				"resou",
+				"PackageResourceViewer: Open Resource"
+			],
+			[
+				"open",
+				"PackageResourceViewer: Open Resource"
+			],
+			[
+				"resour",
+				"PackageResourceViewer: Open Resource"
+			],
+			[
+				"convert case sc",
+				"Convert Case: SCREAMING_SNAKE_CASE"
+			],
+			[
+				"conver",
+				"Indentation: Convert to Spaces"
+			],
+			[
+				"reg",
+				"RegReplace: Documentation"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"set the",
+				"UI: Select Theme"
+			],
+			[
+				"setting",
+				"Preferences: Settings"
+			],
+			[
+				"inser",
+				"Insert Nums"
+			],
+			[
+				"tors",
+				"Snippet: torso"
+			],
+			[
+				"git diff",
+				"Git: Diff All Files"
+			],
+			[
+				"git reset",
+				"Git: Reset (unstage) Current File"
+			],
+			[
+				"rever",
+				"File: Revert"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"git l",
+				"Set Syntax: Git Log"
+			],
+			[
+				"git ",
+				"Set Syntax: Git Log"
+			],
+			[
+				"disab",
+				"Package Control: Disable Package"
+			],
+			[
+				"disabl",
+				"Package Control: Disable Package"
+			],
+			[
+				"torso",
+				"Snippet: torso"
+			],
+			[
+				"insert",
+				"Insert Nums"
+			],
+			[
+				"ar",
+				"Arithmetic"
+			],
+			[
+				"",
+				"A File Icon: Settings"
+			],
+			[
+				"space",
+				"Indentation: Convert to Spaces"
+			],
+			[
+				"convert to",
+				"Indentation: Convert to Spaces"
+			],
+			[
+				"sublime",
+				"SublimeLinter: Lint This View"
+			],
+			[
+				"rmove",
+				"Package Control: Remove Package"
+			],
+			[
+				"subl",
+				"SublimeLinter: Lint This View"
+			],
+			[
+				"enabl",
+				"Package Control: Enable Package"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"tor",
+				"Snippet: torso"
+			],
+			[
+				"matlab",
+				"Set Syntax: MATLAB"
+			],
+			[
+				"mat",
+				"Set Syntax: MATLAB"
+			],
+			[
+				"set theme",
+				"UI: Select Theme"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 134.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Users/mathiaskirkegaard/Documents/Projects/Haptic_Encoder/Mechaduino_esp/Esp-Firmware",
+		"/Users/mathiaskirkegaard/Documents/Projects/Haptic_Encoder/Mechaduino-Firmware/Mechaduino/Mechaduino"
+	],
+	"file_history":
+	[
+		"/Users/mathiaskirkegaard/Documents/Projects/Haptic_Encoder/Mechaduino-Firmware/Mechaduino/Mechaduino/Controller.cpp",
+		"/Users/mathiaskirkegaard/Documents/Projects/Haptic_Encoder/Mechaduino_esp/Esp-Firmware/plotter.py",
+		"/Users/mathiaskirkegaard/Documents/Projects/Haptic_Encoder/Mechaduino_esp/Esp-Firmware/tf_click.h",
+		"/Users/mathiaskirkegaard/Documents/Projects/Haptic_Encoder/Mechaduino_esp/Esp-Firmware/sin.h",
+		"/Users/mathiaskirkegaard/Documents/Projects/Haptic_Encoder/Mechaduino_esp/Esp-Firmware/click.h",
+		"/Users/mathiaskirkegaard/Documents/Projects/Torso/Link/linkmodule/Firmware/components/hal/InputDevices.cpp",
+		"/Users/mathiaskirkegaard/Documents/Projects/Haptic_Encoder/Mechaduino_esp/Esp-Firmware/snap.h",
+		"/Users/mathiaskirkegaard/Library/Arduino15/packages/esp32/hardware/esp32/1.0.4/cores/esp32/main.cpp",
+		"/Users/mathiaskirkegaard/Documents/Projects/Haptic_Encoder/Mechaduino_esp/Esp-Firmware/Esp-firmware.ino",
+		"/Users/mathiaskirkegaard/Documents/Projects/Haptic_Encoder/Mechaduino_esp/Esp-Firmware/haptics.h",
+		"/Users/mathiaskirkegaard/Documents/MATLAB/snap.txt",
+		"/Users/mathiaskirkegaard/Documents/MATLAB/wall.txt",
+		"/Users/mathiaskirkegaard/Documents/Arduino/spi_example/haptics.h",
+		"/Users/mathiaskirkegaard/Documents/MATLAB/snap.h",
+		"/Users/mathiaskirkegaard/Documents/Arduino/spi_example/main/main.ino",
+		"/Users/mathiaskirkegaard/Documents/Arduino/spi_example/spi_example.ino",
+		"/Users/mathiaskirkegaard/Documents/Projects/Haptic_Encoder/Open-Source-Haptics-For-Artists/Hardware/FireFaderDerivatives/RotaryDevice/FirmwareModels/detentsandmore/detentsandmore.ino",
+		"/Users/mathiaskirkegaard/Documents/Projects/Haptic_Encoder/dimple/makefile.in",
+		"/Users/mathiaskirkegaard/Documents/Projects/Haptic_Encoder/dimple/autogen.sh",
+		"/Users/mathiaskirkegaard/Documents/Projects/Haptic_Encoder/dimple/makefile.am",
+		"/Users/mathiaskirkegaard/Documents/Projects/Haptic_Encoder/dimple/auogen.sh",
+		"/Users/mathiaskirkegaard/Documents/Projects/Haptic_Encoder/dimple/ch2.html",
+		"/Users/mathiaskirkegaard/.ssh/config",
+		"/Users/mathiaskirkegaard/Install_files/Kirkegaard plugs/IZotope Stutter Edit v1.03 OSX UB-DYNAMiCS/DYNAMiCS.nfo",
+		"/Users/mathiaskirkegaard/Install_files/Kirkegaard plugs/iZotope Iris 2 v2.01 OS X [HEXWARS][dada]/Iris 2 v2.01/HEXWARS.nfo",
+		"/Users/mathiaskirkegaard/Documents/Projects/Torso/Link/linkmodule/Firmware/components/app/gan_exp",
+		"/Users/mathiaskirkegaard/Documents/Projects/Torso/Link/linkmodule/Firmware/components/app/LinkModule.cpp",
+		"/Users/mathiaskirkegaard/Documents/Projects/Torso/Link/linkmodule/Firmware/components/app/Output.cpp",
+		"/Users/mathiaskirkegaard/Documents/Projects/Torso/Link/linkmodule/Firmware/components/app/include/app/Output.hpp",
+		"/Users/mathiaskirkegaard/Documents/Projects/Torso/Link/linkmodule/Firmware/components/hal/DigitalOutput.cpp",
+		"/Users/mathiaskirkegaard/Documents/Projects/Torso/Link/linkmodule/Firmware/components/hal/include/hal/DigitalOutput.hpp",
+		"/Users/mathiaskirkegaard/Documents/Projects/Torso/Link/linkmodule/linkmodule.sublime-project",
+		"/Users/mathiaskirkegaard/Documents/Projects/Torso/Sequencer/torso/bootloader/LibFT260-v1.1.1/LibFT260-v1.1.1/LibFT260.h",
+		"/Users/mathiaskirkegaard/Documents/Projects/Torso/Sequencer/torso/bootloader/LibFT260-v1.1.1/samples/UART/uart.cpp",
+		"/Users/mathiaskirkegaard/Documents/Projects/Torso/Sequencer/torso/bootloader/ft260_init.cpp",
+		"/Users/mathiaskirkegaard/Documents/Projects/Torso/Link/linkmodule/Firmware/components/hal/include/impl/RotaryEncoder.ipp",
+		"/Users/mathiaskirkegaard/Documents/Projects/Torso/Link/linkmodule/Firmware/components/hal/include/RotaryEncoder.hpp",
+		"/Users/mathiaskirkegaard/Documents/Projects/Torso/Link/old_rotary/RotaryEncoder.hpp",
+		"/Users/mathiaskirkegaard/Documents/Projects/Torso/Link/old_rotary/RotaryEncoder.cpp",
+		"/Users/mathiaskirkegaard/Documents/Projects/Torso/Link/linkmodule/Firmware/components/hal/include/hal/RotaryEncoder.hpp",
+		"/Users/mathiaskirkegaard/Documents/Projects/Torso/Link/linkmodule/Firmware/components/hal/RotaryEncoder.cpp",
+		"/Users/mathiaskirkegaard/Documents/Projects/Torso/Link/linkmodule/Firmware/components/hal/Output.cpp",
+		"/Users/mathiaskirkegaard/Documents/Projects/Torso/Link/linkmodule/Firmware/components/hal/include/hal/Output.hpp",
+		"/Users/mathiaskirkegaard/Documents/Projects/Torso/Link/linkmodule/Firmware/components/hal/ShiftOut.cpp",
+		"/Users/mathiaskirkegaard/Documents/Projects/Torso/Link/linkmodule/Firmware/components/hal/include/hal/ShiftOut.hpp",
+		"/Users/mathiaskirkegaard/Documents/Projects/Torso/Link/linkmodule/Firmware/components/hal/include/hal/InputDevices.hpp",
+		"/Users/mathiaskirkegaard/Documents/Projects/Torso/Link/linkmodule/Firmware/components/app/include/app/LinkModule.hpp",
+		"/Users/mathiaskirkegaard/Documents/Projects/Torso/Link/linkmodule/Firmware/components/api/include/api/Util.hpp",
+		"/Users/mathiaskirkegaard/Documents/Projects/Torso/Link/linkmodule/Firmware/components/app/component.mk",
+		"/Users/mathiaskirkegaard/Documents/Projects/Torso/Link/linkmodule/Firmware/components/api/Clock.cpp",
+		"/Users/mathiaskirkegaard/Documents/Projects/Torso/Link/linkmodule/Firmware/main/main.cpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/tests/scale_test.cpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/app/include/app/ParameterLayout.hpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/tests/vocing_test.cpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/app/Rhythm.cpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/version.txt",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/app/ProjectHandler.cpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/api/include/api/Scale.hpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/app/include/app/Rhythm.hpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/app/ParameterLayout.cpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/app/Melody.cpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/app/Torso.cpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/app/Pattern.cpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/tests/modu_test.cpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/api/include/api/Util.hpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/app/View.cpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/app/include/app/View.hpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/api/Graphics.cpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/api/include/api/Graphics.hpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/api/Scale.cpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/tests/Makefile",
+		"/Users/mathias/Documents/hardware/torso/firmware/tests/hash_test.cpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/app/include/app/Pattern.hpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/tests/param_test.cpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/tests/custom_set.cpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/api/include/api/Clock.hpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/api/Clock.cpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/api/include/api/EventQueue.hpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/hal/include/hal/Input.hpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/hal/Input.cpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/hal/MIDI_IO.cpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/hal/include/hal/SK6812mini.hpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/hal/include/hal/RotaryEncoder.hpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/hal/include/hal/impl/RotaryEncoder.ipp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/api/MIDI.cpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/api/include/api/MIDI.hpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/hal/include/hal/Flash.hpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/hal/Flash.cpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/link/include/ableton/util/Log.hpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/link/include/ableton/discovery/Payload.hpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/app/include/app/Torso.hpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/link/include/ableton/link/NodeId.hpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/link/include/ableton/discovery/NetworkByteStreamSerializable.hpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/hal/include/hal/MIDI_IO.hpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/main/main.cpp",
+		"/Users/mathias/Documents/hardware/torso/simulator/Source/LEDButton.cpp",
+		"/Users/mathias/Documents/hardware/torso/simulator/Source/LEDButton.h",
+		"/Users/mathias/Documents/hardware/torso/simulator/Source/MainComponent.cpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/api/EventQueue.cpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/tests/pqueue_test",
+		"/Users/mathias/Documents/hardware/torso/firmware/tests/pqueue_test.cpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/tests/queue_test.cpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/app/include/app/ProjectHandler.hpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/link/include/ableton/platforms/esp32/ScanIpIfAddrs.hpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/hal/include/hal/WiFi.hpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/hal/WiFi.cpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/sdkconfig",
+		"/Users/mathias/Documents/hardware/torso/torso.sublime-project",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/link/include/ableton/Link.ipp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/link/include/ableton/discovery/InterfaceScanner.hpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/link/include/ableton/platforms/Config.hpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/link/include/ableton/platforms/esp32/ESP32.hpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/link/include/ableton/link/CircularFifo.hpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/api/Util.cpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/Makefile",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/app/Groove.cpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/app/include/app/Groove.hpp",
+		"/Users/mathias/Library/Application Support/Sublime Text 3/Packages/C++/Snippets/namespace-..-(namespace).sublime-snippet",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/app/include/app/Melody.hpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/tests/update_test.cpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/hal/include/hal/impl/UART.ipp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/api/include/api/Socket.hpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/api/include/api/Parameter.hpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/api/Socket.cpp",
+		"/Users/mathias/Documents/hardware/torso/firmware/components/hal/include/hal/UART.hpp",
+		"/Users/mathias/Documents/hardware/torso/simulator/Source/Encoder.cpp",
+		"/Users/mathias/Documents/hardware/torso/simulator/Source/Encoder.h",
+		"/Users/mathias/Library/Application Support/Sublime Text 3/Packages/User/forc.sublime-snippet"
+	],
+	"find":
+	{
+		"height": 38.0
+	},
+	"find_in_files":
+	{
+		"height": 134.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"print",
+			"update_trig",
+			"angle",
+			"filter",
+			"print",
+			"serial.print",
+			"trig",
+			"out_sig3",
+			"trig",
+			"Trig",
+			"trig",
+			"trig_min",
+			"print",
+			"active_mode",
+			"float",
+			"print",
+			"knob->idx",
+			"idx"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 2,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "haptics.cpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3580,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2005,
+								2005
+							]
+						],
+						"settings":
+						{
+							"SL.13.region_keys":
+							[
+							],
+							"SL.28.region_keys":
+							[
+							],
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "tf_wall.h",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 24171,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1622,
+								1622
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/Users/mathiaskirkegaard/Documents/Projects/Haptic_Encoder/Mechaduino-Firmware/Mechaduino/Mechaduino/Mechaduino.ino",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6073,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4368,
+								4368
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Deviot (Arduino IDE)/deviot.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2151.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "haptics.h",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2776,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								878,
+								878
+							]
+						],
+						"settings":
+						{
+							"SL.30.region_keys":
+							[
+							],
+							"syntax": "Packages/Deviot (Arduino IDE)/deviot.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 173.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "filter.h",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 366,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								109,
+								109
+							]
+						],
+						"settings":
+						{
+							"SL.37.region_keys":
+							[
+							],
+							"auto_name": "filter.hpp",
+							"syntax": "Packages/Deviot (Arduino IDE)/deviot.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "Esp-firmware.ino",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6353,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4788,
+								4788
+							]
+						],
+						"settings":
+						{
+							"SL.18.region_keys":
+							[
+							],
+							"SL.29.region_keys":
+							[
+							],
+							"syntax": "Packages/Deviot (Arduino IDE)/deviot.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2752.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 26.0
+	},
+	"input":
+	{
+		"height": 48.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.SublimeLinter":
+	{
+		"height": 220.0
+	},
+	"output.astyle_error_message":
+	{
+		"height": 104.0
+	},
+	"output.deviot":
+	{
+		"height": 81.0
+	},
+	"output.exec":
+	{
+		"height": 26.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.git":
+	{
+		"height": 100.0
+	},
+	"output.hex_viewer_inspector":
+	{
+		"height": 116.0
+	},
+	"output.mdpopups":
+	{
+		"height": 0.0
+	},
+	"output.sftp":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "HaticKnob.sublime-project",
+	"replace":
+	{
+		"height": 48.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"out",
+				"Firmware/out.txt"
+			],
+			[
+				"main",
+				"linktest/main/main.cpp"
+			],
+			[
+				"tor",
+				"Firmware/components/app/Torso.cpp"
+			],
+			[
+				"rhy",
+				"Firmware/components/app/Rhythm.cpp"
+			],
+			[
+				"r",
+				"Firmware/components/app/Rhythm.cpp"
+			],
+			[
+				"pattern",
+				"Firmware/components/app/include/app/Pattern.hpp"
+			],
+			[
+				"graph",
+				"Firmware/components/api/Graphics.cpp"
+			],
+			[
+				"sk",
+				"Firmware/components/hal/include/hal/SK6812mini.hpp"
+			],
+			[
+				"par",
+				"Firmware/components/app/include/app/Pattern.hpp"
+			],
+			[
+				"",
+				"Firmware/components/app/Pattern.cpp"
+			],
+			[
+				"gr",
+				"Firmware/components/api/Graphics.cpp"
+			],
+			[
+				"gra",
+				"Firmware/components/api/Graphics.cpp"
+			],
+			[
+				"maincom",
+				"Simulator/Source/MainComponent.h"
+			],
+			[
+				"input",
+				"Firmware/components/hal/Input.cpp"
+			],
+			[
+				"torso",
+				"torso.sublime-project"
+			],
+			[
+				".git",
+				".gitignore"
+			],
+			[
+				"grap",
+				"firmware/components/api/include/api/Graphics.hpp"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 357.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 574.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 308.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
