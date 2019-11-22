@@ -385,9 +385,9 @@ float read_angle()
 
   for (int reading = 0; reading < avg; reading++) {  //average multple readings at each step
     encoderReading += readEncoder();
-    delay(10);
+    delay(1);
     }
-
+  enableTCInterrupts();         // Enable closed loop
   //return encoderReading * (360.0 / 16384.0) / avg;
   return lookup[encoderReading / avg];
 }

@@ -166,6 +166,8 @@ private:
     float b[3] = { 0.0431,    0.0862,    0.0431};
 };
 
+int zero_crossing(int in);
+
 
 inline int mod(int in, int hi) {
     const int lo = 0;
@@ -212,12 +214,6 @@ inline int clip(int in, int lo, int hi) {
     }
 }
 
-int zero_crossing(int in) {
-    static int in_last = 0;
-    if (in * in_last < 0) {
-        return 1;
-    }
-    else return 0;
-}
+
 
 #endif

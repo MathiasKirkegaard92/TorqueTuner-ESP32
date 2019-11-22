@@ -244,8 +244,16 @@ int16_t Mode::angle_to_index(void* ptr) {
 
 void Mode::reset(int16_t angle_) {
 	idx = angle_ + offset; // apply mode specific offeset to idx
-}
+};
 
+
+int zero_crossing(int in){
+    static int in_last = 0;
+    if (in * in_last < 0) {
+        return 1;
+    }
+    else return 0;
+};
 
 
 

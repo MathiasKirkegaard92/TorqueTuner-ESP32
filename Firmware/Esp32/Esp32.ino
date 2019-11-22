@@ -10,12 +10,12 @@
 // --------  Wifi Credentials   ----------
 
 // Home
-const char* SSID     = "Peberfrugt";
-const char* PASSWORD = "un3bout3ill3alam3r";
+// const char* SSID     = "Peberfrugt";
+// const char* PASSWORD = "un3bout3ill3alam3r";
 
 // Mathias K Iphone
-// const char* SSID     = "Graveyard";
-// const char* PASSWORD = "yoloyolo";
+const char* SSID     = "Graveyard";
+const char* PASSWORD = "yoloyolo";
 
 // Mathias B smartphone
 // const char* SSID     = "MathiasB";
