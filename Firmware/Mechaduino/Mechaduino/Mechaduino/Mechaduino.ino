@@ -183,7 +183,7 @@ void loop()                 // main loop
 {
 
   serialCheck();              //must have this execute in loop for serial commands to function
-  // SerialUSB.println(read_angle());
+
   switch (mode) {
   case 't':
     r = torque;
@@ -242,31 +242,5 @@ void loop()                 // main loop
   //   if (mode == 'v') serialUSB.println(v);
   // }
 
-
-// Torque curve
-  // time = micros();
-  // if ((time - time_last) > (1.0 / Fs * 1000000)) {
-  //   idx = round((fold360(y) * 10.0 * detents)) % 3600; // Angle to table idx
-  //   r = filter(sin_1[idx] / 1024.0 * 80);
-  //   time_last = time;
-  // }
-
-
-// Switching noise test
-  // time = micros();
-  // if ((time - time_last) > (1.0 / freq * 1000000)) {
-  //   r = state ? 115 : 0;
-  //   state = !state;
-  //   time_last = time;
-  // }
-
-  // if ((time - time_last_print) > 1000000) {
-  //   freq += 5;
-  //   SerialUSB.println(freq);
-  //   time_last_print = time;
-  // }
-
-
-  //r=0.1125*step_count;      //Don't use this anymore. Step interrupts enabled above by "configureStepDir()", adjust step I2C_BUF_size ("stepangle")in parameters.cpp
 
 }
