@@ -1,3 +1,0 @@
-[submodule "mechaduino"]
-	path = Firmware/Mechaduino
-	url = https://github.com/MathiasKirkegaard92/Mechaduino-Firmware.git
