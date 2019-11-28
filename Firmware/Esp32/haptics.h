@@ -43,8 +43,9 @@ public:
 class Click: public Mode
 {
 public:
-    Click() : Mode(MAX_TORQUE / 6.0, 10) {
+    Click() : Mode(MAX_TORQUE / 3.0, 10, 0, 3600) {
         offset = 1799;
+        wrap = true;
     }
     int16_t calc(void* ptr);
 };
@@ -66,8 +67,9 @@ public:
 class ExpSpring: public Mode
 {
 public:
-    ExpSpring() : Mode(MAX_TORQUE / 2, 1, 1600, 2000) {
+    ExpSpring() : Mode(MAX_TORQUE, 1, 1600, 2000) {
         angle_scale_default = 3600.0 / (max - min);
+        wrap = true;
     }
     int16_t calc(void* ptr);
 };
@@ -92,6 +94,7 @@ class Motion: public Mode
 public:
     Motion() : Mode(0, 1) {
         pid_mode = 'v';
+        wrap = true;
     }
     int16_t calc(void* ptr);
 };

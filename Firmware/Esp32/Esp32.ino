@@ -28,7 +28,7 @@ const uint8_t I2C_BUF_SIZE = 10;
 const uint8_t CHECKSUMSIZE = 2;
 
 
-const uint32_t HAPTICS_UPDATE_RATE = 10000; // 10 KHz
+const uint32_t HAPTICS_UPDATE_RATE = 100; // 10 KHz
 const uint32_t FSR_UPDATE_RATE = 10000; // 100 Hz
 // const uint32_t I2CUPDATE_FREQ = 400000; // Fast mode;
 // const uint32_t I2CUPDATE_FREQ = 1000000; // Fast mode plus;
@@ -64,7 +64,6 @@ int sel_max = 0;
 // System variables
 int err = 0;
 int err_count = 0;
-int angle_out = 0;
 uint32_t last_time;
 uint32_t last_time_errprint;
 uint32_t last_time_fsr;
@@ -252,14 +251,15 @@ void loop() {
 
   now = micros();
   if (now - last_time > HAPTICS_UPDATE_RATE) {
-    // mapper_device_poll(dev, 0); // Update libmapper connections
+    mapper_device_poll(dev, 0); // Update libmapper connections
     err = receiveI2C(&knob);
     err_count += err;
 
     if (err) {}
     else {  // Update torque if valid angle measure is recieved.
       knob.update();
-      mapper_signal_update(out_sig1, &angle_out, 1, MAPPER_NOW);
+      mapper_signal_update(out_sig1, &knob.angle_out, 1, MAPPER_NOW);
+      // printf("%i \n", knob.angle_out);
       mapper_signal_update(out_sig2, &knob.velocity, 1, MAPPER_NOW);
       mapper_signal_update(out_sig3, &knob.trigger, 1, MAPPER_NOW);
       mapper_signal_update(out_sig6, &knob.acceleration, 1, MAPPER_NOW);
@@ -268,17 +268,18 @@ void loop() {
     last_time = now;
   }
 
-  // if (now - last_time_fsr > FSR_UPDATE_RATE) {
-  //   update_fsr(&pressure);
-  //   mapper_signal_update(out_sig4, &pressure, 1, MAPPER_NOW);
-  //   last_time_fsr = now;
-
-  //   if (update_btn(SEL_PIN)) {
-  //     sel++;
-  //     sel %= sel_max;
-  //     mapper_signal_update(out_sig5, &sel, 1, MAPPER_NOW);
-  //   };
-  // }
+  if (now - last_time_fsr > FSR_UPDATE_RATE) {
+    // printf("%i \n", knob.angle);
+//     update_fsr(&pressure);
+//     mapper_signal_update(out_sig4, &pressure, 1, MAPPER_NOW);
+    last_time_fsr = now;
+//
+//     if (update_btn(SEL_PIN)) {
+//       sel++;
+//       sel %= sel_max;
+//       mapper_signal_update(out_sig5, &sel, 1, MAPPER_NOW);
+//     };
+  }
 
   // Error check for tuning of I2c frequency and overall programspeed
   // if (now - last_time_errprint > 5000000) { //10 seconds
@@ -288,4 +289,3 @@ void loop() {
   // }
 
 }
-
