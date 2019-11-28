@@ -23,14 +23,11 @@ void HapticKnob::update() {
 	angle_discrete = floor(floor(angle_out / resolution) * resolution);
 	if (abs(angle_discrete - angle_discrete_last) >= resolution && abs(angle_delta) > 1 && angle_scale > 0) {
 		update_trig();
-		// printf("%i , %i \n", angle_discrete, angle_out);
+		printf("%i , %i \n", angle_discrete, angle_out);
 		angle_discrete_last = angle_discrete;
 	};
-
+	// printf("%i,  %i \n", angle_out, angle_unclipped);
 	torque = active_mode->calc(this);
-	if (zero_crossing(torque)) {
-		printf("%i , %i, %i \n ", angle_discrete, angle_out, torque);
-	}
 };
 
 void HapticKnob::update_angle() {
@@ -50,12 +47,15 @@ void HapticKnob::update_angle() {
 	// angle_unclipped = (angle + (3600 * wrap_count));
 	angle_unclipped += angle_delta;
 
-	// wrap instead of clip if wrap flag is set !!
-
 	// Clip with parameter range
 	angle_out += angle_delta;
-	angle_out = static_cast<int32_t>(clip(angle_out, active_mode->min, active_mode->max));
-	angle_delta = angle_out - angle_out_last;
+	if (active_mode->wrap) {
+		angle_out = mod(angle_out, 3600); // CHANGE to min, max
+	} else {
+		angle_out = static_cast<int32_t>(clip(angle_out, active_mode->min, active_mode->max));
+		angle_delta = angle_out - angle_out_last;
+	}
+
 	angle_out_last = angle_out;
 };
 
@@ -93,6 +93,7 @@ void HapticKnob::set_angle_scale(float angle_scale_) {
 void HapticKnob::set_defaults(Mode * mode) {
 	torque_scale = mode->torque_scale_default;
 	angle_scale = mode->angle_scale_default;
+	// printf("angle scale set to %i \n", angle_scale );
 }
 
 void HapticKnob::print_mode(MODE mode_) {
@@ -211,7 +212,7 @@ int16_t LinSpring::calc(void* ptr) {
 
 int16_t ExpSpring::calc(void* ptr) {
 	HapticKnob* knob = (HapticKnob*)ptr;
-	int idx_test  = static_cast<int16_t> (round((knob->angle - min) * knob->angle_scale)) % 3600;
+	int idx_test  = static_cast<int16_t> (round((knob->angle_unclipped - min) * knob->angle_scale)) % 3600;
 	float val = static_cast<float>(tf_wall[idx_test]) / TABLE_RESOLUTION; // wall
 	if (knob->angle_unclipped <= min) {
 		val = 1;
@@ -219,6 +220,7 @@ int16_t ExpSpring::calc(void* ptr) {
 		val = -1;
 	}
 	val *= knob->torque_scale;
+	// printf("%i,  %f \n", knob->angle_unclipped, val);
 	return static_cast<int16_t> (round(val));
 };
 
@@ -247,12 +249,12 @@ void Mode::reset(int16_t angle_) {
 };
 
 
-int zero_crossing(int in){
-    static int in_last = 0;
-    if (in * in_last < 0) {
-        return 1;
-    }
-    else return 0;
+int zero_crossing(int in) {
+	static int in_last = 0;
+	if (in * in_last < 0) {
+		return 1;
+	}
+	else return 0;
 };
 
 
