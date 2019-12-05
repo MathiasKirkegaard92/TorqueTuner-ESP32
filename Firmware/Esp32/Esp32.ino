@@ -28,7 +28,7 @@ const uint8_t I2C_BUF_SIZE = 10;
 const uint8_t CHECKSUMSIZE = 2;
 
 
-const uint32_t HAPTICS_UPDATE_RATE = 100; // 10 KHz
+const uint32_t HAPTICS_UPDATE_RATE = 1000; // 10 KHz
 const uint32_t FSR_UPDATE_RATE = 10000; // 100 Hz
 // const uint32_t I2CUPDATE_FREQ = 400000; // Fast mode;
 // const uint32_t I2CUPDATE_FREQ = 1000000; // Fast mode plus;
