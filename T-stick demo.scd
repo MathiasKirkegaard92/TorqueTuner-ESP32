@@ -68,7 +68,7 @@ Ndef(\string,{
 
 
 // Recordplayer velocity mode
-
+Ndef().play
 Ndef(\vinyl, {
 	var buf, speed, env;
 /*	env = EnvGen.kr(

@@ -23,7 +23,7 @@ void HapticKnob::update() {
 	angle_discrete = floor(floor(angle_out / resolution) * resolution);
 	if (abs(angle_discrete - angle_discrete_last) >= resolution && abs(angle_delta) > 1 && angle_scale > 0) {
 		update_trig();
-		printf("%i , %i \n", angle_discrete, angle_out);
+		// printf("%i , %i \n", angle_discrete, angle_out);
 		angle_discrete_last = angle_discrete;
 	};
 	// printf("%i,  %i \n", angle_out, angle_unclipped);
