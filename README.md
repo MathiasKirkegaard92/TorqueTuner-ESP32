@@ -1,2 +1,2 @@
 # HapticKnob
-A force feedback rotary encoder, with embedded haptics rendering on the esp32.
+A force feedback rotary encoder built on the Mechaduino platform, with embedded haptics rendering on the esp32.
