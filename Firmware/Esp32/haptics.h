@@ -10,6 +10,7 @@
 #include "tf_sin.h"
 #include "tf_click_2.h"
 #include "arduino.h"
+
 const int TABLE_RESOLUTION = 65535;
 const int MAX_TORQUE = 233;
 const int WALL_TORQUE = 150;
@@ -18,19 +19,19 @@ const float MAX_VELOCITY = 350;
 class Mode
 {
 public:
-    Mode( float torque_ = MAX_TORQUE / 2, int angle_ = 1, float min_ = 0, float max_ = 3600)
-        : min(min_), max(max_), torque_scale_default(torque_), angle_scale_default(angle_) {};
+    Mode( float torque_ = MAX_TORQUE / 2, int angle_ = 1, float min_ = 0, float max_ = 3600, float damping_ = 0)
+        : min(min_), max(max_), scale_default(torque_), stretch_default(angle_), damping(damping_) {};
     virtual int16_t calc(void* ptr) = 0;
-    int16_t angle_to_index(void* ptr);
+    int16_t calc_index(void* ptr);
     void reset(int16_t angle_);
-    float torque_scale_default; // torque scale
-    float angle_scale_default; // angle scale
-    float min;
-    float max;
-    bool wrap = false;
+
+    float scale_default, stretch_default, min, max, damping;
     int offset = 0;
-    int idx;
+
+    bool wrap_output = false;
+    bool wrap_haptics = false;
     char pid_mode = 't';
+    int idx = 0;
 };
 
 class Wall: public Mode
@@ -45,7 +46,8 @@ class Click: public Mode
 public:
     Click() : Mode(MAX_TORQUE / 3.0, 10, 0, 3600) {
         offset = 1799;
-        wrap = true;
+        wrap_output = true;
+        wrap_haptics = true;
     }
     int16_t calc(void* ptr);
 };
@@ -67,9 +69,10 @@ public:
 class ExpSpring: public Mode
 {
 public:
-    ExpSpring() : Mode(MAX_TORQUE, 1, 1600, 2000) {
-        angle_scale_default = 3600.0 / (max - min);
-        wrap = true;
+    ExpSpring() : Mode(150, 1, 0, 3600, 0.1) {
+        stretch_default  = 8;
+        wrap_output = false;
+        wrap_haptics = false;
     }
     int16_t calc(void* ptr);
 };
@@ -78,6 +81,8 @@ class LinSpring: public Mode
 {
 public:
     LinSpring() : Mode(MAX_TORQUE / 2, 1, 0, 3600) {
+        wrap_output = true;
+        wrap_haptics = false;
     }
     int16_t calc(void* ptr);
 };
@@ -89,12 +94,12 @@ public:
     int16_t calc(void* ptr);
 };
 
-class Motion: public Mode
+class Spin: public Mode
 {
 public:
-    Motion() : Mode(0, 1) {
+    Spin() : Mode(0, 1) {
         pid_mode = 'v';
-        wrap = true;
+        wrap_output = true;
     }
     int16_t calc(void* ptr);
 };
@@ -111,7 +116,7 @@ public:
         LINSPRING = 4,
         EXPSPRING = 5,
         FREE_TORQUE = 6,
-        MOTION = 7,
+        SPIN = 7,
     };
     const int trigger_interval = 50000;  // 10 ms
 
@@ -120,7 +125,7 @@ public:
     void update();
     void update_angle();
     void update_trig();
-    float calc_acceleration();
+    float calc_acceleration(float velocity_);
     float filter(float x);
     float gate(float val, float threshold, float floor);
     int32_t getTime();
@@ -129,11 +134,11 @@ public:
     void set_mode(int mode_idx);
     void print_mode(MODE mode_);
     void set_defaults(Mode * mode);
-    void set_angle_scale(float angle_scale_);
+    void set_stretch(float stretch_);
     void reset(Mode * mode_);
 
     MODE mode = WALL;
-    int16_t angle = 0; // unwrapped angle representing encoder reading
+    int16_t angle = 0; // unwrap_outputped angle representing encoder reading
     int16_t angle_last = 0;
     int32_t angle_out = 0;
     int32_t angle_out_last = 0;
@@ -147,10 +152,11 @@ public:
     int num_modes = 0;
 
     float velocity = 0;
+    float velocity_out = 0;
     float target_velocity = 350; // [-500;500]
     float acceleration = 0; // [-100;100]
-    float torque_scale = 75.0;
-    float angle_scale = 1; // Corresponds to detents in click and magnet mode.
+    float scale = 75.0;
+    float stretch = 1; // Corresponds to detents in click and magnet mode.
 
     Click click;
     Magnet magnet;
@@ -159,8 +165,8 @@ public:
     ExpSpring exp_spring;
     Free_torque free_torque;
     Inertia inertia;
-    Motion motion;
-    std::vector<Mode * > mode_list = {&click, &magnet, &wall, &inertia, &lin_spring, &exp_spring,  &free_torque, &motion};
+    Spin spin;
+    std::vector<Mode * > mode_list = {&click, &magnet, &wall, &inertia, &lin_spring, &exp_spring,  &free_torque, &spin};
     Mode * active_mode;
 
 private:
