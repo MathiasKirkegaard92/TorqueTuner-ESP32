@@ -6,39 +6,45 @@
 #include <cmath>
 #include "tf_magnet.h"
 #include "tf_click.h"
-#include "tf_wall.h"
+#include "tf_exp_spring.h"
 #include "tf_sin.h"
 #include "tf_click_2.h"
 #include "arduino.h"
 
 const int TABLE_RESOLUTION = 65535;
-const int MAX_TORQUE = 233;
-const int WALL_TORQUE = 150;
-const float MAX_VELOCITY = 350;
+const int MAX_TORQUE = 180;
+const int WALL_TORQUE = 180;
+const float MAX_VELOCITY = 500;
 
 class Mode
 {
 public:
-    Mode( float torque_ = MAX_TORQUE / 2, int angle_ = 1, float min_ = 0, float max_ = 3600, float damping_ = 0)
-        : min(min_), max(max_), scale_default(torque_), stretch_default(angle_), damping(damping_) {};
+    Mode( float scale_ = MAX_TORQUE / 2, int stretch_ = 1, float min_ = 0, float max_ = 3600, float damping_ = 0)
+        : min(min_), max(max_), scale_default(scale_), stretch_default(stretch_), damping(damping_) {};
     virtual int16_t calc(void* ptr) = 0;
     int16_t calc_index(void* ptr);
     void reset(int16_t angle_);
 
-    float scale_default, stretch_default, min, max, damping;
+    float scale_default, stretch_default, min, max, damping, target_velocity_default;
     int offset = 0;
 
     bool wrap_output = false;
     bool wrap_haptics = false;
     char pid_mode = 't';
     int idx = 0;
+    int state = 0;
 };
 
 class Wall: public Mode
 {
 public:
-    Wall() : Mode(MAX_TORQUE / 2) {}
+    Wall() : Mode(MAX_TORQUE / 2) {
+        damping = 0.4;
+        max = 3000;
+    }
     int16_t calc(void* ptr);
+    float stiffness = 0.1;
+    float threshold = 1 / stiffness;
 };
 
 class Click: public Mode
@@ -55,7 +61,9 @@ public:
 class Magnet: public Mode
 {
 public:
-    Magnet() : Mode() {}
+    Magnet() : Mode() {
+        damping = 0.08;
+    }
     int16_t calc(void* ptr);
 };
 
@@ -69,10 +77,8 @@ public:
 class ExpSpring: public Mode
 {
 public:
-    ExpSpring() : Mode(150, 1, 0, 3600, 0.1) {
-        stretch_default  = 8;
-        wrap_output = false;
-        wrap_haptics = false;
+    ExpSpring() : Mode(180, 1, 0, 3600, 0.1) {
+        stretch_default  = 5;
     }
     int16_t calc(void* ptr);
 };
@@ -80,17 +86,20 @@ public:
 class LinSpring: public Mode
 {
 public:
-    LinSpring() : Mode(MAX_TORQUE / 2, 1, 0, 3600) {
+    LinSpring() : Mode(MAX_TORQUE, 1, 0, 3600) {
         wrap_output = true;
         wrap_haptics = false;
     }
     int16_t calc(void* ptr);
 };
 
-class Free_torque: public Mode
+class Free: public Mode
 {
 public:
-    Free_torque() : Mode(0, 1) {}
+    Free() : Mode(0, 1) {
+        // pid_mode = 'h';
+        target_velocity_default = 0;
+    }
     int16_t calc(void* ptr);
 };
 
@@ -100,12 +109,13 @@ public:
     Spin() : Mode(0, 1) {
         pid_mode = 'v';
         wrap_output = true;
+        target_velocity_default = 200;
     }
     int16_t calc(void* ptr);
 };
 
 
-class HapticKnob
+class TorqueTuner
 {
 public:
     enum MODE {
@@ -115,12 +125,12 @@ public:
         INERTIA = 3,
         LINSPRING = 4,
         EXPSPRING = 5,
-        FREE_TORQUE = 6,
+        FREE = 6,
         SPIN = 7,
     };
     const int trigger_interval = 50000;  // 10 ms
 
-    HapticKnob();
+    TorqueTuner();
 
     void update();
     void update_angle();
@@ -153,7 +163,7 @@ public:
 
     float velocity = 0;
     float velocity_out = 0;
-    float target_velocity = 350; // [-500;500]
+    float target_velocity = 0; // [-500;500]
     float acceleration = 0; // [-100;100]
     float scale = 75.0;
     float stretch = 1; // Corresponds to detents in click and magnet mode.
@@ -163,10 +173,10 @@ public:
     Wall wall;
     LinSpring lin_spring;
     ExpSpring exp_spring;
-    Free_torque free_torque;
+    Free free;
     Inertia inertia;
     Spin spin;
-    std::vector<Mode * > mode_list = {&click, &magnet, &wall, &inertia, &lin_spring, &exp_spring,  &free_torque, &spin};
+    std::vector<Mode * > mode_list = {&click, &magnet, &wall, &inertia, &lin_spring, &exp_spring,  &free, &spin};
     Mode * active_mode;
 
 private:
@@ -223,6 +233,9 @@ inline int clip(int in, int lo, int hi) {
     }
 }
 
+inline int sign(float x) {
+    return (x < 0) ? -1 : (x > 0);
+}
 
 
 #endif

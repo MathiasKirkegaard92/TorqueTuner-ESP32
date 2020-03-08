@@ -17,16 +17,34 @@
 // const char* SSID     = "Peberfrugt";
 // const char* PASSWORD = "un3bout3ill3alam3r";
 
+// Home
+const char* SSID     = "tstick_network_SPCL";
+const char* PASSWORD = "mappings";
+
 // Mathias K Iphone
-const char* SSID     = "Graveyard";
-const char* PASSWORD = "yoloyolo";
+// const char* SSID     = "Graveyard";
+// const char* PASSWORD = "yoloyolo";
 
 // Mathias B smartphone
 // const char* SSID     = "MathiasB";
 // const char* PASSWORD = "yoloyolo";
 
-const int FSR_PIN = 34;
+
+// #define TSTICKJOINT 1
+
 const int SEL_PIN = 0;
+
+#ifdef TSTICKJOINT
+const int SDA_PIN = 26;
+const int SCL_PIN = 25;
+#else
+const int SDA_PIN = 21;
+const int SCL_PIN = 22;
+#endif
+
+// Standalone
+// const int SDA_PIN = 21;
+// const int SCL_PIN = 22;
 
 // I2C variables
 const uint8_t I2C_BUF_SIZE = 10;
@@ -37,44 +55,37 @@ uint16_t checksum_rx = 0;
 uint16_t checksum_tx = 0;
 
 // Timing variables
-const uint32_t HAPTICS_UPDATE_RATE = 1000; // 10 KHz
-const uint32_t FSR_UPDATE_RATE = 10000; // 100 Hz
-// const uint32_t I2CUPDATE_FREQ = 400000; // Fast mode;
-// const uint32_t I2CUPDATE_FREQ = 1000000; // Fast mode plus;
+const uint32_t HAPTICS_UPDATE_RATE = 100 ; // 10 KHz
 const uint32_t I2CUPDATE_FREQ = 3400000; // high speed mode;
 const uint32_t DEBOUNCE_TIME = 10000; // 10 ms
 const uint32_t MAINTENANCE_RATE = 30000000; // 30 s
+const uint32_t GUI_RATE = 33000; //  30 FPS
 
 // Initialise the TinyPICO library
 TinyPICO tp = TinyPICO();
 
-// Initialize hapticKnob
-HapticKnob knob;
+// Initialize TorqueTuner
+TorqueTuner knob;
 
 // State flags
 int connected = 0;
 bool is_playing = true;
 
 // Libmapper variables
-mapper_signal in_sig1;
-mapper_signal in_sig2;
-mapper_signal in_sig3;
-mapper_signal in_sig4;
-mapper_signal in_sig5;
-mapper_signal in_sig6;
+mapper_signal in_sig_scale;
+mapper_signal in_sig_stretch;
+mapper_signal in_sig_mode;
+mapper_signal in_sig_target_velocity;
+mapper_signal in_sig_offset;
+mapper_signal in_sig_damping;
 
-mapper_signal out_sig1;
-mapper_signal out_sig2;
-mapper_signal out_sig3;
-mapper_signal out_sig4;
-mapper_signal out_sig5;
-mapper_signal out_sig6;
+mapper_signal out_sig_angle;
+mapper_signal out_sig_velocity;
+mapper_signal out_sig_trigger;
+mapper_signal out_sig_speed;
+mapper_signal out_sig_quant_angle;
+mapper_signal out_sig_acceleration;
 mapper_device dev;
-
-
-// Noise filter
-Filter fsr_filt;
-
 
 int pressure = 0;
 int sel = 0;
@@ -86,8 +97,8 @@ int err = 0;
 int err_count = 0;
 uint32_t last_time = 0;
 uint32_t last_time_errprint = 0;
-uint32_t last_time_fsr = 0;
 uint32_t last_time_maintenance = 0;
+uint32_t last_time_gui = 0;
 uint32_t now = 0;
 
 uint16_t calcsum(uint8_t buf[], uint8_t length) {
@@ -117,12 +128,6 @@ int init_wifi(const char* ssid, const char* password, int timeout_ms) {
   return 1;
 }
 
-int update_fsr(int* pressure) {
-  int read = analogRead(FSR_PIN);
-  read -= 1350; // Remove static pressure
-  read = fsr_filt.update(read);
-  *pressure = read < 0 ? 0 : read;
-}
 
 bool update_btn(const int pin) {
   static bool last_val;
@@ -157,7 +162,7 @@ int read_param(float * param, uint8_t*  data, uint8_t length) {
   }
 }
 
-int receiveI2C(HapticKnob * knob_) {
+int receiveI2C(TorqueTuner * knob_) {
   Wire.requestFrom(8, I2C_BUF_SIZE + CHECKSUMSIZE);
   uint8_t k = 0;
   while (Wire.available()) {
@@ -165,8 +170,7 @@ int receiveI2C(HapticKnob * knob_) {
     k++;
   }
   if (k != I2C_BUF_SIZE + CHECKSUMSIZE) { // check if all data is recieved
-    Serial.print("Error in recieved data. Bytes missing : ");
-    Serial.println(I2C_BUF_SIZE + CHECKSUMSIZE - k);
+    printf("Error in recieved data. Bytes missing :  %i\n", I2C_BUF_SIZE + CHECKSUMSIZE - k);
     return 1;
   }
   else {
@@ -176,15 +180,13 @@ int receiveI2C(HapticKnob * knob_) {
     }
     else { // Succesfull recieve
       memcpy(&knob_->angle, rx_data, 2);
-      // printf("angle : %d , ", static_cast<int16_t>(knob_->angle));
-      // memcpy(&knob_->angle_wrapped, rx_data + 2, 2);
       memcpy(&knob_->velocity, rx_data + 4, 4);
       return 0; //Return 0 if no error has occured
     }
   }
 }
 
-void sendI2C(HapticKnob * knob_) {
+void sendI2C(TorqueTuner * knob_) {
   Wire.beginTransmission(8); // transmit to device #8
   memcpy(tx_data, &knob_->torque, 2);
   memcpy(tx_data + 2, &knob_->target_velocity, 4);
@@ -195,27 +197,28 @@ void sendI2C(HapticKnob * knob_) {
   Wire.endTransmission();    // stop transmitting
 }
 
-void in_sig1_callback(mapper_signal sig, mapper_id instance, const void *value, int count, mapper_timetag_t *tt) {
+
+void in_sig_scale_callback(mapper_signal sig, mapper_id instance, const void *value, int count, mapper_timetag_t *tt) {
   knob.scale =  *((float*)value);
 }
 
-void in_sig2_callback(mapper_signal sig, mapper_id instance, const void *value, int count, mapper_timetag_t *tt) {
+void in_sig_stretch_callback(mapper_signal sig, mapper_id instance, const void *value, int count, mapper_timetag_t *tt) {
   knob.stretch =  *((float*)value);
 }
 
-void in_sig3_callback(mapper_signal sig, mapper_id instance, const void *value, int count, mapper_timetag_t *tt) {
-  knob.set_mode(*((int32_t*)value));
-}
-
-void in_sig4_callback(mapper_signal sig, mapper_id instance, const void *value, int count, mapper_timetag_t *tt) {
-  knob.target_velocity = (*((float*)value));
-}
-
-void in_sig5_callback(mapper_signal sig, mapper_id instance, const void *value, int count, mapper_timetag_t *tt) {
+void in_sig_offset_callback(mapper_signal sig, mapper_id instance, const void *value, int count, mapper_timetag_t *tt) {
   knob.active_mode->offset = (*((float*)value));
 }
 
-void in_sig6_callback(mapper_signal sig, mapper_id instance, const void *value, int count, mapper_timetag_t *tt) {
+void in_sig_mode_callback(mapper_signal sig, mapper_id instance, const void *value, int count, mapper_timetag_t *tt) {
+  knob.set_mode(*((int32_t*)value));
+}
+
+void in_sig_target_velocity_callback(mapper_signal sig, mapper_id instance, const void *value, int count, mapper_timetag_t *tt) {
+  knob.target_velocity = (*((float*)value));
+}
+
+void in_sig_damping_callback(mapper_signal sig, mapper_id instance, const void *value, int count, mapper_timetag_t *tt) {
   knob.active_mode->damping = (*((float*)value));
 }
 
@@ -224,64 +227,63 @@ void init_mapper_signals() {
   dev = mapper_device_new("TorqueTuner", 0, 0);
 
   // Init libmapper inputs
-  float torque_scale_min = 0;
-  float torque_scale_max = 230;
-  in_sig1 = mapper_device_add_input_signal(dev, "Scale", 1, 'f', "Ncm", &torque_scale_min, &torque_scale_max, in_sig1_callback, NULL);
+  float scale_min = -230;
+  float scale_max = 230;
+  in_sig_scale = mapper_device_add_input_signal(dev, "Scale", 1, 'f', "Ncm", &scale_min, &scale_max, in_sig_scale_callback, NULL);
 
   float angle_scale_min = 0;
   float angle_scale_max = 30;
-  in_sig2 = mapper_device_add_input_signal(dev, "Stretch", 1, 'f', "ratio", &angle_scale_min, &angle_scale_max, in_sig2_callback, NULL);
+  in_sig_stretch = mapper_device_add_input_signal(dev, "Stretch", 1, 'f', "ratio", &angle_scale_min, &angle_scale_max, in_sig_stretch_callback, NULL);
 
   int mode_min = 0;
   int mode_max = knob.num_modes - 1;
   sel_max = mode_max;
-  in_sig3 = mapper_device_add_input_signal(dev, "Mode", 1, 'i', "mode", &mode_min, &mode_max, in_sig3_callback, NULL);
+  in_sig_mode = mapper_device_add_input_signal(dev, "Mode", 1, 'i', "mode", &mode_min, &mode_max, in_sig_mode_callback, NULL);
 
   float vel_min = -700;
   float vel_max = 700;
-  in_sig4 = mapper_device_add_input_signal(dev, "TargetVelocity", 1, 'f', "Rpm", &vel_min, &vel_max, in_sig4_callback, NULL);
+  in_sig_target_velocity = mapper_device_add_input_signal(dev, "TargetVelocity", 1, 'f', "Rpm", &vel_min, &vel_max, in_sig_target_velocity_callback, NULL);
 
   float offset_min = -1800;
   float offset_max = 1800;
-  in_sig5 = mapper_device_add_input_signal(dev, "Offset", 1, 'f', "degrees", &offset_min, &offset_max, in_sig4_callback, NULL);
+  in_sig_offset = mapper_device_add_input_signal(dev, "Offset", 1, 'f', "degrees", &offset_min, &offset_max, in_sig_target_velocity_callback, NULL);
 
-  float damping_min = 0;
+  float damping_min = -1;
   float damping_max = 1;
-  in_sig6 = mapper_device_add_input_signal(dev, "Damping", 1, 'f', "ratio", &offset_min, &offset_max, in_sig4_callback, NULL);
+  in_sig_damping = mapper_device_add_input_signal(dev, "Damping", 1, 'f', "ratio", &offset_min, &offset_max, in_sig_target_velocity_callback, NULL);
 
   // Init libmapper outputs
   int angle_min = 0;
   int angle_max = 3600;
-  out_sig1 = mapper_device_add_output_signal(dev, "Angle", 1, 'i', 0, &angle_min, &angle_max);
+  out_sig_angle = mapper_device_add_output_signal(dev, "Angle", 1, 'i', 0, &angle_min, &angle_max);
 
-  out_sig2 = mapper_device_add_output_signal(dev, "Velocity", 1, 'f', 0, &vel_min, &vel_max);
+  out_sig_velocity = mapper_device_add_output_signal(dev, "Velocity", 1, 'f', 0, &vel_min, &vel_max);
 
   int trig_min = 0;
   int trig_max = 1;
-  out_sig3 = mapper_device_add_output_signal(dev, "Trigger", 1, 'i', 0, &trig_min, &trig_max);
+  out_sig_trigger = mapper_device_add_output_signal(dev, "Trigger", 1, 'i', 0, &trig_min, &trig_max);
 
   float speed_min = 0;
   float speed_max = vel_max;
-  out_sig4 = mapper_device_add_output_signal(dev, "Speed", 1, 'f', 0, &speed_min, &speed_max);
+  out_sig_speed = mapper_device_add_output_signal(dev, "Speed", 1, 'f', 0, &speed_min, &speed_max);
 
-  out_sig5 = mapper_device_add_output_signal(dev, "QuantAngle", 1, 'i', 0, &angle_min, &angle_max);
+  out_sig_quant_angle = mapper_device_add_output_signal(dev, "QuantAngle", 1, 'i', 0, &angle_min, &angle_max);
 
   float acc_min = -100;
   float acc_max = 100;
-  out_sig6 = mapper_device_add_output_signal(dev, "Acceleration", 1, 'f', 0, &acc_min, &acc_max);
-
+  out_sig_acceleration = mapper_device_add_output_signal(dev, "Acceleration", 1, 'f', 0, &acc_min, &acc_max);
 
 }
 
 void setup() {
   Serial.begin(115200);
-  connected = init_wifi(SSID, PASSWORD, 5000);
-  if (connected) {
-    init_mapper_signals();
-  }
+  connected = init_wifi(SSID, PASSWORD, 30000);
+  // if (connected) {
+  init_mapper_signals();
+  // }
   esp_wifi_set_ps(WIFI_PS_NONE);
 
-  Wire.begin();
+  Wire.begin(SDA_PIN, SCL_PIN);
   Wire.setClock(I2CUPDATE_FREQ); // Fast mode plus
 
   // Make a reading for initilization
@@ -289,7 +291,7 @@ void setup() {
   while (err) {
     err = receiveI2C(&knob);
   }
-  knob.set_mode(HapticKnob::CLICK);
+  knob.set_mode(TorqueTuner::LINSPRING);
 
   pinMode(SEL_PIN, INPUT);
 }
@@ -304,60 +306,57 @@ void loop() {
 
     // Recieve Angle and velocity from servo
     err = receiveI2C(&knob);
-    err_count += err;
 
-    if (err) {}
+    if (err) {printf("i2c error \n");}
     else {
 
       // Update torque if valid angle measure is recieved.
       if (is_playing) {
         knob.update();
       } else {
+        // OBS: Consider not updating? assign last last value instead? //
         knob.torque = 0;
         knob.target_velocity = 0;
       }
       sendI2C(&knob);
 
       // Update libmapper outputs
-      mapper_signal_update(out_sig1, &knob.angle_out, 1, MAPPER_NOW);
-      mapper_signal_update(out_sig2, &knob.velocity, 1, MAPPER_NOW);
-      mapper_signal_update(out_sig3, &knob.trigger, 1, MAPPER_NOW);
+      mapper_signal_update(out_sig_angle, &knob.angle_out, 1, MAPPER_NOW);
+      mapper_signal_update(out_sig_velocity, &knob.velocity, 1, MAPPER_NOW);
+      mapper_signal_update(out_sig_trigger, &knob.trigger, 1, MAPPER_NOW);
       float speed = abs(knob.velocity);
-      mapper_signal_update(out_sig4, &speed, 1, MAPPER_NOW);
-      mapper_signal_update(out_sig5, &knob.angle_discrete, 1, MAPPER_NOW);
-      mapper_signal_update(out_sig6, &knob.acceleration, 1, MAPPER_NOW);
+      mapper_signal_update(out_sig_speed, &speed, 1, MAPPER_NOW);
+      mapper_signal_update(out_sig_quant_angle, &knob.angle_discrete, 1, MAPPER_NOW);
+      mapper_signal_update(out_sig_acceleration, &knob.acceleration, 1, MAPPER_NOW);
 
     }
     last_time = now;
   }
 
-  if (now - last_time_fsr > FSR_UPDATE_RATE) {
-    // printf("%i \n", knob.angle);
-//     update_fsr(&pressure);
-//     mapper_signal_update(out_sig4, &pressure, 1, MAPPER_NOW);
-    last_time_fsr = now;
-//
-//     if (update_btn(SEL_PIN)) {
-//       sel++;
-//       sel %= sel_max;
-//       mapper_signal_update(out_sig5, &sel, 1, MAPPER_NOW);
-//     };
+
+  /* ------------------------------*/
+  /* -------- GUI update  ---------*/
+  /* ------------------------------*/
+
+  if (now - last_time_gui > GUI_RATE) {
+    // printf("DATAREADY %i, %i \n", knob.angle_out);
+    // printf("Target velocity: %f \n", knob.target_velocity);
+    last_time_gui = now;
   }
 
-  // Error check for tuning of I2c frequency and overall programspeed
-  // if (now - last_time_errprint > 5000000) { //10 seconds
-  //   Serial.print("Errors in last 5 seconds:  ");  Serial.println(err_count);
-  //   err_count = 0;
-  //   last_time_errprint = now;
-  // }
 
-  // Reconnect to wifi if not connected
+  /* ------------------------------*/
+  /* -------- Maintenance ---------*/
+  /* ------------------------------*/
+
+// Reconnect to wifi if not connected
   if (now - last_time_maintenance > MAINTENANCE_RATE) {
     if (WiFi.status() != WL_CONNECTED) {
       connected = init_wifi(SSID, PASSWORD, 0);
-      delay(10);
-      if (WiFi.status() == WL_CONNECTED)
-        init_mapper_signals();
+      delay(100);
+      if (WiFi.status() == WL_CONNECTED) {
+        // init_mapper_signals();
+      }
     }
     // Check LiPo battery voltage
     float voltage = tp.GetBatteryVoltage();
