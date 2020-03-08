@@ -1,12 +1,12 @@
 #include "haptics.h"
 
 
-HapticKnob::HapticKnob() {
+TorqueTuner::TorqueTuner() {
 	// active_mode = mode_list[0];
 	num_modes = mode_list.size();
 };
 
-void HapticKnob::update() {
+void TorqueTuner::update() {
 
 	update_angle();
 
@@ -17,36 +17,21 @@ void HapticKnob::update() {
 	// Calculate index to transfer function
 	active_mode->calc_index(this);
 
-	// // Calculate trigger and discrete output
+	// Calculate trigger and discrete output
 	float resolution = active_mode->max / stretch;
-
-	// float fraction = angle_out - angle_discrete;
-	// if (fraction >= resolution) {
-	// 	angle_discrete += resolution;
-	// 	// angle_discrete = angle_out;
-	// 	update_trig();
-	// 	printf("%i, %i \n", angle_out, angle_discrete);
-	// } else if (fraction <= -resolution) {
-	// 	angle_discrete -= resolution;
-	// 	// angle_discrete = angle_out;
-	// 	update_trig();
-	// 	printf("%i, %i \n", angle_out, angle_discrete);
-
-	// }
-
-
 
 	angle_discrete = round(round(angle_out / resolution) * resolution);
 	if (abs(angle_discrete - angle_discrete_last) >= resolution) {
 		update_trig();
 		angle_discrete_last = angle_discrete;
 	};
-
-	torque = static_cast<int16_t>(active_mode->calc(this) - active_mode->damping * velocity);
-	// printf("%f %i \n", velocity, torque);
+	if (active_mode == &wall) {
+		torque = static_cast<int16_t>(active_mode->calc(this));
+	} else
+		torque = static_cast<int16_t>(active_mode->calc(this) - active_mode->damping * velocity);
 };
 
-void HapticKnob::update_angle() {
+void TorqueTuner::update_angle() {
 
 	// Wrap angle
 	angle_delta = angle - angle_last;
@@ -67,14 +52,12 @@ void HapticKnob::update_angle() {
 		angle_out = mod(angle_out, 3600); // CHANGE to min, max
 	} else {
 		angle_out = static_cast<int32_t>(clip(angle_out, active_mode->min, active_mode->max));
-		// angle_delta = angle_out - angle_out_last;
 	}
 
-	// angle_out_last = angle_out;
 };
 
 
-void HapticKnob::set_mode(int mode_idx) {
+void TorqueTuner::set_mode(int mode_idx) {
 	if (active_mode != mode_list[mode_idx]) {
 		active_mode = mode_list[mode_idx];
 		active_mode->reset(angle);
@@ -84,45 +67,31 @@ void HapticKnob::set_mode(int mode_idx) {
 		set_defaults(active_mode);
 
 		// Init discrete angle
-		float resolution = active_mode->max / stretch;
-		angle_discrete = floor(floor(angle_out / resolution) * resolution);
-		print_mode(static_cast<MODE>(mode_idx));
-	}
-};
-
-
-void HapticKnob::set_mode(MODE mode_) {
-	int mode_idx = static_cast<int>(mode_);
-	if (active_mode != mode_list[mode_idx]) {
-		active_mode = mode_list[mode_idx];
-		active_mode->reset(angle);
-		angle_last = angle;
-		angle_out = 0;
-		angle_unclipped = 0;
-		set_defaults(active_mode);
-
-
-		// // Init discrete angle
 		// float resolution = active_mode->max / stretch;
 		// angle_discrete = floor(floor(angle_out / resolution) * resolution);
-
 		print_mode(static_cast<MODE>(mode_idx));
 	}
 };
 
-void HapticKnob::set_stretch(float stretch_) {
+
+void TorqueTuner::set_mode(MODE mode_) {
+	int mode_idx = static_cast<int>(mode_);
+	set_mode(mode_idx);
+};
+
+void TorqueTuner::set_stretch(float stretch_) {
 	if (abs(stretch_ - stretch) > 0.1) {
 		stretch = stretch_;
 	}
 };
 
-void HapticKnob::set_defaults(Mode * mode) {
+void TorqueTuner::set_defaults(Mode * mode) {
 	scale = mode->scale_default;
 	stretch = mode->stretch_default;
-	// printf("angle scale set to %i \n", stretch );
+	target_velocity = mode->target_velocity_default;
 }
 
-void HapticKnob::print_mode(MODE mode_) {
+void TorqueTuner::print_mode(MODE mode_) {
 	printf("Switched mode to : \n");
 	switch (mode_) {
 	case CLICK:
@@ -143,8 +112,8 @@ void HapticKnob::print_mode(MODE mode_) {
 	case EXPSPRING:
 		printf("Exponential Spring \n");
 		break;
-	case FREE_TORQUE:
-		printf("Free torque \n");
+	case FREE:
+		printf("Free\n");
 		break;
 	case SPIN:
 		printf("Spin \n");
@@ -152,14 +121,14 @@ void HapticKnob::print_mode(MODE mode_) {
 	}
 };
 
-float HapticKnob::calc_acceleration(float velocity_) {
+float TorqueTuner::calc_acceleration(float velocity_) {
 	static float last = 0;
 	acceleration = last - velocity_;
 	last = velocity_;
 	return acceleration;
 };
 
-float HapticKnob::filter(float x) {
+float TorqueTuner::filter(float x) {
 	// Cannonical form - https://ccrma.stanford.edu/~jos/filters/Direct_Form_II.html
 	// w[n] = x[n] - a1*w[n-1] - a2*w[n-2]
 	// y[n] = b0*w[n] + b1*w[n-1] + b2*w[n-2]
@@ -172,33 +141,36 @@ float HapticKnob::filter(float x) {
 };
 
 
-float HapticKnob::gate(float val, float threshold, float floor) {
+float TorqueTuner::gate(float val, float threshold, float floor) {
 	return abs(val) > threshold ? val : floor;
 };
 
-void HapticKnob::update_trig() {
+void TorqueTuner::update_trig() {
 	trigger++;
 	trigger = fold(trigger, 0, 1);
 };
 
-int32_t HapticKnob::getTime() {
+int32_t TorqueTuner::getTime() {
 	return esp_timer_get_time();
 }
 
 int16_t Wall::calc(void* ptr) {
-	HapticKnob* knob = (HapticKnob*)ptr;
+	TorqueTuner* knob = (TorqueTuner*)ptr;
 	float val = 0;
-	if (knob->angle_unclipped <= min) {
-		val = 1;
-	} else if (knob->angle_unclipped >= max) {
-		val = -1;
+	float delta_angle_min = (knob->angle_unclipped - min) / 10.0;
+	if (delta_angle_min < 0 && delta_angle_min > - threshold) {
+		val = WALL_TORQUE * stiffness * abs(delta_angle_min) - damping * knob->velocity;
+	} else {
+		float delta_angle_max = (knob->angle_unclipped - max) / 10.0;
+		if (delta_angle_max > 0 && delta_angle_max < threshold) {
+			val = -WALL_TORQUE * stiffness * abs(delta_angle_max) - damping * knob->velocity;
+		}
 	}
-	val *= knob->scale;
 	return static_cast<int16_t> (round(val));
 };
 
 int16_t Click::calc(void* ptr) {
-	HapticKnob* knob = (HapticKnob*)ptr;
+	TorqueTuner* knob = (TorqueTuner*)ptr;
 	float val;
 	if (knob->angle_out <= min) {
 		val = WALL_TORQUE;
@@ -211,12 +183,12 @@ int16_t Click::calc(void* ptr) {
 };
 
 int16_t Magnet::calc(void* ptr) {
-	HapticKnob* knob = (HapticKnob*)ptr;
+	TorqueTuner* knob = (TorqueTuner*)ptr;
 	return static_cast<float>(tf_magnet[idx]) / TABLE_RESOLUTION * knob->scale; // Magnet
 };
 
 int16_t Inertia::calc(void* ptr) {
-	HapticKnob* knob = (HapticKnob*)ptr;
+	TorqueTuner* knob = (TorqueTuner*)ptr;
 	if (knob->velocity > 0) {
 		return round((- (knob->angle_out / 3600.0) * knob->velocity) * knob->scale / MAX_VELOCITY);
 	} else {
@@ -225,7 +197,7 @@ int16_t Inertia::calc(void* ptr) {
 };
 
 int16_t LinSpring::calc(void* ptr) {
-	HapticKnob* knob = (HapticKnob*)ptr;
+	TorqueTuner* knob = (TorqueTuner*)ptr;
 	float val = - (knob->angle_out - 1800) / 1800.0;
 	if (knob->angle_unclipped <= min) {
 		val = 1;
@@ -237,8 +209,8 @@ int16_t LinSpring::calc(void* ptr) {
 };
 
 int16_t ExpSpring::calc(void* ptr) {
-	HapticKnob* knob = (HapticKnob*)ptr;
-	float val = static_cast<float>(tf_wall[idx]) / TABLE_RESOLUTION;
+	TorqueTuner* knob = (TorqueTuner*)ptr;
+	float val = static_cast<float>(tf_exp_spring[idx]) / TABLE_RESOLUTION;
 
 	if (knob->angle_unclipped <= min) {
 		val = 1;
@@ -247,30 +219,26 @@ int16_t ExpSpring::calc(void* ptr) {
 	}
 
 	val *= knob->scale;
-	// printf("%i, %i, %i, %f \n", knob->angle_unclipped, knob->angle, idx, val);
 	return static_cast<int16_t> (round(val));
 };
 
 
-int16_t Free_torque::calc(void* ptr) {
-	HapticKnob* knob = (HapticKnob*)ptr;
+int16_t Free::calc(void* ptr) {
+	TorqueTuner* knob = (TorqueTuner*)ptr;
 	return knob->scale;
 };
 
 int16_t Spin::calc(void* ptr) {
-	HapticKnob* knob = (HapticKnob*)ptr;
+	TorqueTuner* knob = (TorqueTuner*)ptr;
 	return knob->target_velocity;
 };
 
 
 // Calculates an index for the look-up table based transfer functions
 int16_t Mode::calc_index(void* ptr) {
-	static int16_t state = 0;
-	HapticKnob* knob = (HapticKnob*)ptr;
+	TorqueTuner* knob = (TorqueTuner*)ptr;
 
 	state += static_cast<int16_t> (round(knob->angle_delta * knob->stretch));
-	// printf("%i, %i\n", knob->angle_delta, state );
-	// idx = knob->angle + knob->stretch * static_cast<float>(knob->angle_delta);
 	if (wrap_haptics)
 	{
 		idx = mod(state, 3600);
@@ -282,17 +250,11 @@ int16_t Mode::calc_index(void* ptr) {
 };
 
 void Mode::reset(int16_t angle_) {
-	idx = angle_ + offset; // apply mode specific offset to idx
+	idx = offset; // apply mode specific offset to idx
+	state = 0;
 };
 
 
-int zero_crossing(int in) {
-	static int in_last = 0;
-	if (in * in_last < 0) {
-		return 1;
-	}
-	else return 0;
-};
 
 
 
