@@ -42,10 +42,6 @@ const int SDA_PIN = 21;
 const int SCL_PIN = 22;
 #endif
 
-// Standalone
-// const int SDA_PIN = 21;
-// const int SCL_PIN = 22;
-
 // I2C variables
 const uint8_t I2C_BUF_SIZE = 10;
 const uint8_t CHECKSUMSIZE = 2;
@@ -55,7 +51,7 @@ uint16_t checksum_rx = 0;
 uint16_t checksum_tx = 0;
 
 // Timing variables
-const uint32_t HAPTICS_UPDATE_RATE = 100 ; // 10 KHz
+const uint32_t HAPTICS_UPDATE_RATE = 500 ; // 2 KHz
 const uint32_t I2CUPDATE_FREQ = 3400000; // high speed mode;
 const uint32_t DEBOUNCE_TIME = 10000; // 10 ms
 const uint32_t MAINTENANCE_RATE = 30000000; // 30 s
@@ -298,11 +294,12 @@ void setup() {
 
 void loop() {
 
+  // Update libmapper connections
+  mapper_device_poll(dev, 0);
+
   now = micros();
   if (now - last_time > HAPTICS_UPDATE_RATE) {
 
-    // Update libmapper connections
-    mapper_device_poll(dev, 0);
 
     // Recieve Angle and velocity from servo
     err = receiveI2C(&knob);
