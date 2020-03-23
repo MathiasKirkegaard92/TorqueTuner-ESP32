@@ -30,7 +30,7 @@ const char* PASSWORD = "mappings";
 // const char* PASSWORD = "yoloyolo";
 
 
-// #define TSTICKJOINT 1
+ #define TSTICKJOINT 1
 
 const int SEL_PIN = 0;
 
@@ -365,4 +365,3 @@ void loop() {
     last_time_maintenance = now;
   }
 }
-

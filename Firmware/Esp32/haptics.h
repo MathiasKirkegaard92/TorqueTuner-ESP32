@@ -97,7 +97,6 @@ class Free: public Mode
 {
 public:
     Free() : Mode(0, 1) {
-        // pid_mode = 'h';
         target_velocity_default = 0;
     }
     int16_t calc(void* ptr);
