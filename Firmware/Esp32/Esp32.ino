@@ -1,4 +1,3 @@
-// #include <SPI.h>
 #include <Wire.h>
 #include <WiFi.h>
 #include <cmath>
@@ -7,6 +6,7 @@
 #include <TinyPICO.h>
 
 #include "haptics.h"
+#include "TorqueTuner.h"
 
 // For disabling power saving
 #include "esp_wifi.h"
@@ -18,8 +18,13 @@
 // const char* PASSWORD = "un3bout3ill3alam3r";
 
 // Home
-const char* SSID     = "tstick_network_SPCL";
-const char* PASSWORD = "mappings";
+// const char* SSID     = "tstick_network_SPCL";
+// const char* PASSWORD = "mappings";
+
+// Sommerhus
+const char* SSID     = "Fibernet-IA01816468";
+const char* PASSWORD = "HJ0Knbr9";
+
 
 // Mathias K Iphone
 // const char* SSID     = "Graveyard";
@@ -30,7 +35,7 @@ const char* PASSWORD = "mappings";
 // const char* PASSWORD = "yoloyolo";
 
 
- #define TSTICKJOINT 1
+#define TSTICKJOINT 1
 
 const int SEL_PIN = 0;
 
@@ -149,15 +154,6 @@ bool update_btn(const int pin) {
 }
 
 
-int read_param(float * param, uint8_t*  data, uint8_t length) {
-  memcpy(param, data, length);
-  if ( std::isnan(*param)) {
-    return 1;
-  } else {
-    return 0;
-  }
-}
-
 int receiveI2C(TorqueTuner * knob_) {
   Wire.requestFrom(8, I2C_BUF_SIZE + CHECKSUMSIZE);
   uint8_t k = 0;
@@ -182,6 +178,8 @@ int receiveI2C(TorqueTuner * knob_) {
   }
 }
 
+
+
 void sendI2C(TorqueTuner * knob_) {
   Wire.beginTransmission(8); // transmit to device #8
   memcpy(tx_data, &knob_->torque, 2);
@@ -192,7 +190,6 @@ void sendI2C(TorqueTuner * knob_) {
   int n = Wire.write(tx_data, I2C_BUF_SIZE + CHECKSUMSIZE);
   Wire.endTransmission();    // stop transmitting
 }
-
 
 void in_sig_scale_callback(mapper_signal sig, mapper_id instance, const void *value, int count, mapper_timetag_t *tt) {
   knob.scale =  *((float*)value);
@@ -217,7 +214,6 @@ void in_sig_target_velocity_callback(mapper_signal sig, mapper_id instance, cons
 void in_sig_damping_callback(mapper_signal sig, mapper_id instance, const void *value, int count, mapper_timetag_t *tt) {
   knob.active_mode->damping = (*((float*)value));
 }
-
 
 void init_mapper_signals() {
   dev = mapper_device_new("TorqueTuner", 0, 0);
