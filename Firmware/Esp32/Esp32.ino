@@ -35,7 +35,7 @@ const char* PASSWORD = "HJ0Knbr9";
 // const char* PASSWORD = "yoloyolo";
 
 
-#define TSTICKJOINT 1
+// #define TSTICKJOINT 1
 
 const int SEL_PIN = 0;
 
@@ -67,6 +67,9 @@ TinyPICO tp = TinyPICO();
 
 // Initialize TorqueTuner
 TorqueTuner knob;
+
+// Init i2c device
+HapticDev i2c;
 
 // State flags
 int connected = 0;
@@ -150,45 +153,50 @@ bool update_btn(const int pin) {
   } else {
     return false;
   }
+}
 
+esp_err_t receiveI2C(TorqueTuner * knob_) {
+  esp_err_t err = i2c.read(rx_data, I2C_BUF_SIZE + CHECKSUMSIZE);
+  memcpy(&knob_->angle, rx_data, 2);
+  memcpy(&knob_->velocity, rx_data + 4, 4);
+
+  // Wire.requestFrom(8, I2C_BUF_SIZE + CHECKSUMSIZE);
+  // uint8_t k = 0;
+  // while (Wire.available()) {
+  //   rx_data[k] = Wire.read();
+  //   k++;
+  // }
+  // if (k != I2C_BUF_SIZE + CHECKSUMSIZE) { // check if all data is recieved
+  //   printf("Error in recieved data. Bytes missing :  %i\n", I2C_BUF_SIZE + CHECKSUMSIZE - k);
+  //   return 1;
+  // }
+  // else {
+  //   memcpy(&checksum_rx, rx_data + I2C_BUF_SIZE, 2); // read checksum
+  //   if (checksum_rx != calcsum(rx_data, I2C_BUF_SIZE)) { // error in recieved data
+  //     return 2;
+  //   }
+  //   else { // Succesfull recieve
+  //     memcpy(&knob_->angle, rx_data, 2);
+  //     memcpy(&knob_->velocity, rx_data + 4, 4);
+  //     return 0; //Return 0 if no error has occured
+  //   }
+  // }
+
+  return err;
 }
 
 
-int receiveI2C(TorqueTuner * knob_) {
-  Wire.requestFrom(8, I2C_BUF_SIZE + CHECKSUMSIZE);
-  uint8_t k = 0;
-  while (Wire.available()) {
-    rx_data[k] = Wire.read();
-    k++;
-  }
-  if (k != I2C_BUF_SIZE + CHECKSUMSIZE) { // check if all data is recieved
-    printf("Error in recieved data. Bytes missing :  %i\n", I2C_BUF_SIZE + CHECKSUMSIZE - k);
-    return 1;
-  }
-  else {
-    memcpy(&checksum_rx, rx_data + I2C_BUF_SIZE, 2); // read checksum
-    if (checksum_rx != calcsum(rx_data, I2C_BUF_SIZE)) { // error in recieved data
-      return 2;
-    }
-    else { // Succesfull recieve
-      memcpy(&knob_->angle, rx_data, 2);
-      memcpy(&knob_->velocity, rx_data + 4, 4);
-      return 0; //Return 0 if no error has occured
-    }
-  }
-}
-
-
-
-void sendI2C(TorqueTuner * knob_) {
-  Wire.beginTransmission(8); // transmit to device #8
+esp_err_t sendI2C(TorqueTuner * knob_) {
+  // Wire.beginTransmission(8); // transmit to device #8
   memcpy(tx_data, &knob_->torque, 2);
   memcpy(tx_data + 2, &knob_->target_velocity, 4);
   memcpy(tx_data + 6, &knob_->active_mode->pid_mode, 1);
   checksum_tx = calcsum(tx_data, I2C_BUF_SIZE);
   memcpy(tx_data + I2C_BUF_SIZE, &checksum_tx, 2);
-  int n = Wire.write(tx_data, I2C_BUF_SIZE + CHECKSUMSIZE);
-  Wire.endTransmission();    // stop transmitting
+  esp_err_t err = i2c.write(tx_data, I2C_BUF_SIZE + CHECKSUMSIZE);
+  // int n = Wire.write(tx_data, I2C_BUF_SIZE + CHECKSUMSIZE);
+  // Wire.endTransmission();    // stop transmitting
+  return err;
 }
 
 void in_sig_scale_callback(mapper_signal sig, mapper_id instance, const void *value, int count, mapper_timetag_t *tt) {
@@ -275,15 +283,21 @@ void setup() {
   // }
   esp_wifi_set_ps(WIFI_PS_NONE);
 
-  Wire.begin(SDA_PIN, SCL_PIN);
-  Wire.setClock(I2CUPDATE_FREQ); // Fast mode plus
+  // Wire.begin(SDA_PIN, SCL_PIN);
+  // Wire.setClock(I2CUPDATE_FREQ); // Fast mode plus
+  i2c.init(8, SDA_PIN, SCL_PIN);
+  knob.set_mode(TorqueTuner::LINSPRING);
 
   // Make a reading for initilization
-  int err = 1;
-  while (err) {
-    err = receiveI2C(&knob);
-  }
-  knob.set_mode(TorqueTuner::LINSPRING);
+  // int err = 1;
+  // while (err) {
+  //   // printf("%i \n", sendI2C(&knob) );
+  //   knob.torque = 100;
+  //   printf("Send %i \n", sendI2C(&knob));
+  //   delay(500);
+  //   printf("Recieved: %i \n", receiveI2C(&knob) );
+  //   printf("%i\n", knob.angle);
+  // }
 
   pinMode(SEL_PIN, INPUT);
 }
@@ -300,7 +314,7 @@ void loop() {
     // Recieve Angle and velocity from servo
     err = receiveI2C(&knob);
 
-    if (err) {printf("i2c error \n");}
+    if (err != ESP_OK) {printf("i2c error \n");}
     else {
 
       // Update torque if valid angle measure is recieved.
@@ -326,7 +340,6 @@ void loop() {
     last_time = now;
   }
 
-
   /* ------------------------------*/
   /* -------- GUI update  ---------*/
   /* ------------------------------*/
@@ -334,6 +347,7 @@ void loop() {
   if (now - last_time_gui > GUI_RATE) {
     // printf("DATAREADY %i, %i \n", knob.angle_out);
     // printf("Target velocity: %f \n", knob.target_velocity);
+    printf("%i\n", knob.angle);
     last_time_gui = now;
   }
 
