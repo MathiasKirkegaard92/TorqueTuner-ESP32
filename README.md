@@ -1,2 +1,3 @@
-# TorqueTuner
-A force feedback rotary encoder built on the Mechaduino platform, with embedded haptics rendering on the esp32.
+# TorqueTuner: A self contained module for designing rotaryhaptic force feedback for digital musical instruments.
+
+This repository is part of the TorqueTuner project, and contains firmware for the ESP32 microcontroller.
