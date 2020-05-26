@@ -9,7 +9,7 @@
 #include "tf_exp_spring.h"
 #include "tf_sin.h"
 #include "tf_click_2.h"
-#include "arduino.h"
+#include "Arduino.h"
 
 const int TABLE_RESOLUTION = 65535;
 const int MAX_TORQUE = 180;
